@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.15" />
+    </filter>
+  </defs>
+  <!-- Background with subtle rounded corners -->
+  <rect width="512" height="512" rx="108" fill="url(#primaryGrad)" />
+  
+  <!-- Subtle pattern circle -->
+  <circle cx="256" cy="256" r="180" fill="white" fill-opacity="0.08" />
+  
+  <!-- Cart / Store Basket Icon in Safe Zone -->
+  <g transform="translate(106, 116)" filter="url(#shadow)">
+    <!-- Cart Base -->
+    <path d="M40 50 L80 50 L115 170 L250 170 C256 170 262 165 264 158 L285 85 C287 78 282 70 274 70 L95 70" 
+          fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Basket Grid Lines -->
+    <path d="M125 105 L265 105 M140 140 L250 140 M165 75 L150 165 M215 75 L205 165" 
+          fill="none" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-opacity="0.75" />
+    <!-- Wheels -->
+    <circle cx="125" cy="220" r="22" fill="url(#accentGrad)" stroke="#FFFFFF" stroke-width="8" />
+    <circle cx="235" cy="220" r="22" fill="url(#accentGrad)" stroke="#FFFFFF" stroke-width="8" />
+    <!-- Growth / Star Accent -->
+    <path d="M200 20 L208 38 L228 41 L213 55 L217 75 L200 65 L183 75 L187 55 L172 41 L192 38 Z" fill="#FBBF24" />
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+{
+  "name": "سوبيرات الهناء - تسيير المحل والكاشير",
+  "description": "نظام تسيير احترافي وبسيط لسوبيرات الهناء بالجزائر: كاشير سريع، مخزون بالقطعة والوزن، ديون الزبائن، ومزامنة بين الأجهزة مع العمل دون إنترنت.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

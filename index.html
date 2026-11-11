@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <script>
+      (function() {
+        // Intercept Vite HMR WebSocket in AI Studio preview environments where WebSocket is blocked
+        if (typeof window !== 'undefined') {
+          var OrigWS = window.WebSocket;
+          if (OrigWS) {
+            window.WebSocket = function(url, protocols) {
+              var urlStr = String(url || '');
+              var protoStr = String(protocols || '');
+              if (protoStr.includes('vite-hmr') || urlStr.includes('vite-hmr') || urlStr.includes('token=')) {
+                var target = new EventTarget();
+                target.readyState = 1;
+                target.OPEN = 1;
+                target.CLOSED = 3;
+                target.CLOSING = 2;
+                target.CONNECTING = 0;
+                target.send = function() {};
+                target.close = function() {};
+                setTimeout(function() {
+                  target.dispatchEvent(new Event('open'));
+                }, 0);
+                return target;
+              }
+              return new OrigWS(url, protocols);
+            };
+            window.WebSocket.prototype = OrigWS.prototype;
+            window.WebSocket.OPEN = OrigWS.OPEN;
+            window.WebSocket.CLOSED = OrigWS.CLOSED;
+            window.WebSocket.CLOSING = OrigWS.CLOSING;
+            window.WebSocket.CONNECTING = OrigWS.CONNECTING;
+          }
+
+          // Global suppression for any WebSocket unhandled rejections or errors
+          window.addEventListener('unhandledrejection', function(event) {
+            var msg = (event.reason && (event.reason.message || event.reason.stack)) || String(event.reason || '');
+            if (msg.includes('WebSocket') || msg.includes('closed without opened')) {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+            }
+          });
+
+          window.addEventListener('error', function(event) {
+            var msg = event.message || '';
+            if (msg.includes('WebSocket') || msg.includes('closed without opened')) {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+            }
+          });
+
+          // Suppress Vite failed to connect to websocket console errors
+          var origConsoleError = console.error;
+          console.error = function() {
+            var args = Array.prototype.slice.call(arguments);
+            var text = args.map(function(a) { return String(a || ''); }).join(' ');
+            if (text.includes('WebSocket closed without opened') || text.includes('[vite] failed to connect to websocket')) {
+              return;
+            }
+            return origConsoleError.apply(console, arguments);
+          };
+        }
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>سوبيرات الهناء - تسيير المحل والكاشير</title>
+    <meta name="description" content="نظام تسيير احترافي وبسيط لسوبيرات الهناء بالجزائر: كاشير سريع، مخزون بالقطعة والوزن، ديون الزبائن، ومزامنة بين الأجهزة مع العمل دون إنترنت." />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="سوبيرات الهناء - تسيير المحل والكاشير" />
+    <meta property="og:description" content="نظام تسيير احترافي وبسيط لسوبيرات الهناء بالجزائر: كاشير سريع، مخزون بالقطعة والوزن، ديون الزبائن، ومزامنة بين الأجهزة مع العمل دون إنترنت." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- PWA & Mobile Meta Tags -->
+    <meta name="theme-color" content="#059669" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="سوبيرات هناء" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+
+    <!-- Google Fonts: Tajawal & Cairo for ultra crisp Arabic POS readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-slate-50 text-slate-800 antialiased selection:bg-emerald-500 selection:text-white font-['Tajawal',sans-serif] min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
